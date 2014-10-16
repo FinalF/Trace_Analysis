@@ -17,10 +17,16 @@ public class Main {
 		
 	static boolean getMeta(String RawDataDicPath,String MetaData) throws IOException{
 			File RawDataDic= new File(RawDataDicPath);
+			RawData_Process test;
 			for(File f:RawDataDic.listFiles()){
-				RawData_Process test=new RawData_Process(f.getAbsolutePath(), MetaData);
+				test=new RawData_Process(f.getAbsolutePath(), MetaData);
 				test.generateStat();
 			}
+			System.out.println("Finish scanning all users' data");
+			test=new RawData_Process(MetaData);
+			test.generateOveralStat();
+			System.out.println("Finish Processing data");
+			
 			return true;
 		}
 }

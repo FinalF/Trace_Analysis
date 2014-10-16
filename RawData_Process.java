@@ -18,29 +18,40 @@ import java.io.*;
 public class RawData_Process {
 	InputStream raw;
 //	Scanner raw;
-	OutputStream stats;
+	OutputStream stats_PerPerson;
+	OutputStream stats_Overall;
+	OutputStream stats_InitialLocation;
 	String input_location;
-	String output_location;
+	String output_location_perperson;
+	String output_location_overall;
+	String output_location_initiallocation;
 	
 	RawData_Process(String input_location, String output_location) throws FileNotFoundException{
 		this.raw=new FileInputStream(input_location);
 //		this.raw=new Scanner(new File(input_location));
-		this.stats=new FileOutputStream(output_location,true);
 		this.input_location=input_location;
-		this.output_location=output_location;
+		this.output_location_perperson=output_location+"_PerPerson";
+		this.output_location_initiallocation=output_location+"_InitialLocation";
+		this.stats_PerPerson=new FileOutputStream(output_location_perperson,true);
+		this.stats_InitialLocation=new FileOutputStream(output_location_initiallocation,true);
 	}
 	
-<<<<<<< HEAD
+	RawData_Process(String output_location) throws FileNotFoundException{
+		this.output_location_perperson=output_location+"_PerPerson";
+		this.output_location_overall=output_location+"_Overall";
+		this.stats_Overall=new FileOutputStream(output_location_overall,true);
+	}
+	
+
 	/*calculate max/min stats per person*/
-=======
->>>>>>> origin/master
+
 	boolean generateStat() throws IOException{
 		/*stats: 0:t,1:x,2:y,3:xmin,4:xmax,5:ymin,6:ymax,
 		 * 7:speed-x-min,8:speed-x-max,9:speed-y-min,10:speed-y-max,11:speed-min,12:speed-max*/
 		double[] data=new double[13];
 		boolean initialed=false;
 		BufferedReader in=new BufferedReader(new InputStreamReader(raw));
-		BufferedWriter out=new BufferedWriter(new OutputStreamWriter(stats));
+		BufferedWriter out=new BufferedWriter(new OutputStreamWriter(stats_PerPerson));
 		String line;
 		int count=0;
 		while((line=in.readLine())!=null){
@@ -69,6 +80,9 @@ public class RawData_Process {
 				data[0]=t;
 				data[1]=x;
 				data[2]=y;
+				/*record the initial value*/
+				generateInitial(t,x,y);
+				
 				
 				data[3]=x;
 				data[4]=x;
@@ -96,7 +110,7 @@ public class RawData_Process {
 			}
 
 		}
-		System.out.println(count+" entries read from "+input_location+" ,result recorded in "+output_location);
+		System.out.println(count+" entries read from "+input_location+" ,result recorded in "+output_location_perperson);
 		for(int i=3;i<data.length;i++)
 			out.write(data[i]+",");
 		out.newLine();
@@ -106,23 +120,55 @@ public class RawData_Process {
 		return true;
 	}
 	
-<<<<<<< HEAD
+
 	/*get the overall stats from above results*/
-	boolean generateOveralStat(){
-		
+	boolean generateOveralStat() throws IOException{
+		BufferedReader in=new BufferedReader(new InputStreamReader(new FileInputStream(output_location_perperson)));
+		BufferedWriter out=new BufferedWriter(new OutputStreamWriter(stats_Overall));
+		/*stats: 0:xmin,1:xmax,2:ymin,3:ymax,
+		 * 4:speed-x-min,5:speed-x-max,6:speed-y-min,7:speed-y-max,8:speed-min,9:speed-max
+		 * row 1: average / row  2: max&min*/
+		double[][] data=new double[2][10];
+		String line;
+		int count=0;
+		while((line=in.readLine())!=null){
+			count++;
+			line=line.trim();
+//			System.out.println(line);
+			String[] lines = line.split(",");
+			for(int i=0;i<data[0].length;i++){
+				data[0][i]+=Double.parseDouble(lines[i]);
+				if(i%2==0) data[1][i]=Math.min(data[1][i], Double.parseDouble(lines[i]));
+				if(i%2!=0) data[1][i]=Math.max(data[1][i], Double.parseDouble(lines[i]));
+			}
+			
+		}
+		out.write(">>>>>>>>>>>>>>>>>>>>>>>>>\n");
+		for(int i=0;i<data[0].length;i++)
+			out.write(data[0][i]/count+",");
+		out.newLine();
+		for(int i=0;i<data[1].length;i++)
+			out.write(data[1][i]+",");
+		out.write("<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+		out.newLine();
+		in.close();
+		out.close();
+		System.out.println(count+" entries of Meta data collected from "+output_location_perperson+" ,result recorded in "+output_location_overall);
 		return true;
 	}
 	
 	/*extract initial position*/
-	boolean generateInitial(){
-		
+	boolean generateInitial(double t,double x, double y) throws IOException{
+		BufferedWriter out=new BufferedWriter(new OutputStreamWriter(stats_InitialLocation));
+			out.write(t+","+x+","+y);
+		out.newLine();
+		out.close();
 		return true;
 	}
 	
 	
 	
-=======
->>>>>>> origin/master
+
 	double distance(double time, double x, double y){
 		return Math.sqrt(Math.pow(x,2)+Math.pow(y,2))/time;
 	}
