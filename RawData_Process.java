@@ -25,7 +25,7 @@ public class RawData_Process {
 	RawData_Process(String input_location, String output_location) throws FileNotFoundException{
 		this.raw=new FileInputStream(input_location);
 //		this.raw=new Scanner(new File(input_location));
-		this.stats=new FileOutputStream(output_location);
+		this.stats=new FileOutputStream(output_location,true);
 		this.input_location=input_location;
 		this.output_location=output_location;
 	}
