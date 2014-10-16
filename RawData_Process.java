@@ -47,8 +47,9 @@ public class RawData_Process {
 
 	boolean generateStat() throws IOException{
 		/*stats: 0:t,1:x,2:y,3:xmin,4:xmax,5:ymin,6:ymax,
-		 * 7:speed-x-min,8:speed-x-max,9:speed-y-min,10:speed-y-max,11:speed-min,12:speed-max*/
-		double[] data=new double[13];
+		 * 7:speed-x-min,8:speed-x-max,9:speed-y-min,10:speed-y-max,11:speed-min,12:speed-max*
+		 * 13: time-min, 14:time-max*/
+		double[] data=new double[15];
 		boolean initialed=false;
 		BufferedReader in=new BufferedReader(new InputStreamReader(raw));
 		BufferedWriter out=new BufferedWriter(new OutputStreamWriter(stats_PerPerson));
@@ -103,6 +104,7 @@ public class RawData_Process {
 				data[10]=Math.max(data[10], Math.abs(y-data[2]));
 				data[11]=Math.min(data[11],distance(t-data[0],x-data[1],y-data[2]));
 				data[12]=Math.max(data[11],distance(t-data[0],x-data[1],y-data[2]));
+				data[14]=Math.max(data[14], t);
 				
 				data[0]=t;
 				data[1]=x;
@@ -127,8 +129,9 @@ public class RawData_Process {
 		BufferedWriter out=new BufferedWriter(new OutputStreamWriter(stats_Overall));
 		/*stats: 0:xmin,1:xmax,2:ymin,3:ymax,
 		 * 4:speed-x-min,5:speed-x-max,6:speed-y-min,7:speed-y-max,8:speed-min,9:speed-max
+		 * 10:time-min, 11:time-max
 		 * row 1: average / row  2: max&min*/
-		double[][] data=new double[2][10];
+		double[][] data=new double[2][12];
 		String line;
 		int count=0;
 		while((line=in.readLine())!=null){
