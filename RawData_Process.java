@@ -30,7 +30,10 @@ public class RawData_Process {
 		this.output_location=output_location;
 	}
 	
+<<<<<<< HEAD
 	/*calculate max/min stats per person*/
+=======
+>>>>>>> origin/master
 	boolean generateStat() throws IOException{
 		/*stats: 0:t,1:x,2:y,3:xmin,4:xmax,5:ymin,6:ymax,
 		 * 7:speed-x-min,8:speed-x-max,9:speed-y-min,10:speed-y-max,11:speed-min,12:speed-max*/
@@ -103,6 +106,7 @@ public class RawData_Process {
 		return true;
 	}
 	
+<<<<<<< HEAD
 	/*get the overall stats from above results*/
 	boolean generateOveralStat(){
 		
@@ -117,6 +121,8 @@ public class RawData_Process {
 	
 	
 	
+=======
+>>>>>>> origin/master
 	double distance(double time, double x, double y){
 		return Math.sqrt(Math.pow(x,2)+Math.pow(y,2))/time;
 	}
