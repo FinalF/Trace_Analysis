@@ -44,16 +44,16 @@ public class test {
 		
 		
 
-		processRaw.infoUpdate(matrix);
+		matrix=processRaw.infoUpdate(matrix);
 		GF.candidatesUpdate(matrix);
 		GF.candidatesPrint();
 		
 		System.out.println("\n---------------\n");
-		
-		processRaw.linesUpdate(2);
-		processRaw.infoUpdate(matrix);
-		GF.candidatesUpdate(matrix);
-		GF.candidatesPrint();		
+//		
+//		processRaw.linesUpdate(2);
+//		matrix=processRaw.infoUpdate(matrix);
+//		GF.candidatesUpdate(matrix);
+//		GF.candidatesPrint();		
 		
 		
 		/*--------------2. The Go selection based on the signal strength--------------*/

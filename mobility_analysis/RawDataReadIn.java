@@ -29,11 +29,12 @@ public class RawDataReadIn {
 		return true;
 	}
 	
-	boolean infoUpdate(HashMap<String,nodeInfo> matrix) throws IOException{
+	HashMap<String,nodeInfo> infoUpdate(HashMap<String,nodeInfo> matrix) throws IOException{
 		/*update the information matrix by current coordinations*/
+		BufferedReader in;
 		for(File f: FileRawDataDic.listFiles()){
 			String nodename= f.getName();
-			BufferedReader in=new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+			in=new BufferedReader(new InputStreamReader(new FileInputStream(f)));
 			String line=null;
 			int count=0;
 			while((line=in.readLine())!=null){
@@ -71,9 +72,10 @@ public class RawDataReadIn {
 					matrix.put(nodename, ni);					
 				}
 			}
-			
+			in.close();			
 		}
-		return true;
+
+		return matrix;
 	}
 	
 }
