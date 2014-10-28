@@ -26,8 +26,8 @@ public class nodeInfo {
 		this.distanceSqua=Math.pow(x,2)+Math.pow(y, 2);
 		this.ssPara=Math.random()*distanceSqua+1; //random in [1,d^2]
 		this.ss=ssPara/distanceSqua;
-		this.capacity= (int) Math.random()*6+1;
-		this.capacityActual=(int) Math.random()*this.capacity;
+		this.capacity= (int) (Math.random()*6+1);
+		this.capacityActual=(int) (Math.random()*this.capacity);
 		this.commonI=Math.random();
 	}
 	
@@ -38,8 +38,12 @@ public class nodeInfo {
 		this.ssPara=Math.random()*distanceSqua+1; //random in [1,d^2]
 		this.ss=ssPara/distanceSqua;
 //		this.capacity= (int) Math.random()*6;
-		this.capacityActual=(int) Math.random()*this.capacity;
+		this.capacityActual=(int) (Math.random()*this.capacity);
 		this.commonI=Math.random();
 	}
+	 void print(){
+		 System.out.println("x " +x+" y: "+y);
+		 System.out.println("signal strength: "+ss+" capacity: "+capacity+" actual capacity: "+capacityActual);
+	 }
 	
 }
