@@ -13,7 +13,7 @@ public class test {
 		String dicPath="/home/tue86025/Dropbox/Fall2014_research/MobiHoc15/Code/JAVA/Trace_Analysis/testDataset";
 		RawDataReadIn processRaw = new RawDataReadIn(dicPath, 1); //the raw data/coordination processing
 		HashMap<String,nodeInfo> matrix = new HashMap<String,nodeInfo>(); //the matrix stores <nodename, information>	
-		groupFormation GF = new groupFormation(); //The groupFormation process
+		groupFormation GF = new groupFormation(nrRatio); //The groupFormation process
 		
 		
 		/*--------------1. test the rawdata read in and information updates--------------*/
@@ -47,8 +47,11 @@ public class test {
 		matrix=processRaw.infoUpdate(matrix);
 		GF.candidatesUpdate(matrix);
 		GF.candidatesPrint();
-		
 		System.out.println("\n---------------\n");
+		GF.formGroup();
+		System.out.println("Total connections: "+GF.totalConnection()+"\nCurrent connections: "+GF.currentConnection()
+							+"\nRequired reduced ratio: "+nrRatio+"\n Actual reduced ratio: "+GF.actualRatio());
+		System.out.println("---------------");
 //		
 //		processRaw.linesUpdate(2);
 //		matrix=processRaw.infoUpdate(matrix);

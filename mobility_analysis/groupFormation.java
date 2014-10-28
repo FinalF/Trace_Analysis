@@ -3,6 +3,8 @@ package mobility_analysis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class groupFormation {
@@ -13,16 +15,26 @@ public class groupFormation {
 	
 //	HashMap<String,nodeInfo> matrix;
 	ArrayList<nodeInfo> candidates;
+	int totalNode=0;
+	int requiredNode=0;
+	double nrRatio=0.5;
 	
-	groupFormation(){
+	/*statistics */
+	int GMs=0;
+	
+	groupFormation(double nrRatio){
 		this.candidates = new ArrayList<nodeInfo>();
+		
 	}
 	
+	
+	/*-------PART I: update the geo/signal information, saved for GO & GM sslection--------------------*/
 	boolean candidatesUpdate(HashMap<String,nodeInfo> matrix){
 		candidates = new ArrayList<nodeInfo>();
 		for(String key : matrix.keySet()){
 			//put the infonode into the arraylist 
 			candidates.add(matrix.get(key));
+			totalNode++;
 		}
 		/*sort it based on the signal strength*/
 		candidates=sort(candidates, 0,candidates.size()-1);
@@ -30,6 +42,49 @@ public class groupFormation {
 	}
 	
 	
+
+
+	/*-------PART I: update the geo/signal information, saved for GO & GM sslection--------------------*/
+	
+
+	/*-------PART II: Pick up GOs, GMs--------------------*/
+	
+	boolean formGroup(){
+		this.requiredNode=(int) (totalNode*nrRatio);
+		Set<Integer> GOs=new HashSet<Integer>();//record the index of GOs
+		int i=0;
+		while(i<candidates.size() && totalNode>requiredNode){
+			if(candidates.get(i).capacityActual>0){//check its utilization
+				totalNode-=candidates.get(i).capacity;
+				GOs.add(i);
+			}
+			i++;
+		}
+		/*check whether non-GOs can join nearby GOs*/
+		for(int j=0; j<candidates.size();j++){
+			if(GOs.contains(j)) continue;
+			nodeInfo cur=candidates.get(j);
+			for(int k: GOs){
+				nodeInfo GO=candidates.get(k);
+				if(distance(cur,GO)<GO.d2dRange && GO.capacityActual>0){
+					GMs++;
+					GO.capacityReduce();
+					candidates.add(k,GO); //update the GO
+				}
+			}
+		}
+		return true;
+	}
+	
+	double distance(nodeInfo cur, nodeInfo GO){
+		return Math.sqrt(Math.pow(cur.x-GO.x,2)+Math.pow(cur.y-GO.y,2));
+	}
+	
+	/*-------PART II: Pick up GOs, GMs--------------------*/
+	
+	
+	
+	/*Merge sort*/
 	ArrayList<nodeInfo> sort(ArrayList<nodeInfo> candidates, int head, int tail){
 		ArrayList<nodeInfo> tmp= new ArrayList<nodeInfo>();
 		if(head>tail){
@@ -69,26 +124,26 @@ public class groupFormation {
 		}
 		return tmp;
 	}
-//	boolean insert(nodeInfo ni,int head,int tail){
-//		//put the entry into the arraylist in order
-//		if(head==tail){
-//			if(ni.ss>=candidates.get(head).ss) candidates.add(head,ni);
-//			if(ni.ss<candidates.get(head).ss) candidates.add(head+1,ni);
-//		}else{
-//			int midIndex=(head+tail)/2;
-//			nodeInfo mid=candidates.get(midIndex); //get the mid point
-//			if(mid.ss==ni.ss) candidates.add(midIndex, ni);
-//			if(ni.ss>mid.ss) return insert(ni,head,midIndex-1);
-//			if(ni.ss<mid.ss) return insert(ni,midIndex+1,tail);
-//		}
-//		
-//		return true;
-//	}
 	
+	
+	
+	/*print out the information of Go candidates*/
 	void candidatesPrint(){
 		for(int i=0;i<candidates.size(); i++){
 			nodeInfo ni=candidates.get(i);
 			ni.print();
 		}
+	}
+	
+	int currentConnection(){
+		return totalNode-GMs;
+	}
+	
+	int totalConnection(){
+		return totalNode;
+	}
+	
+	double actualRatio(){
+		return ((double)(totalNode-GMs))/((double)totalNode);
 	}
 }

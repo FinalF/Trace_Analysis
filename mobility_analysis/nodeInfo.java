@@ -41,9 +41,14 @@ public class nodeInfo {
 		this.ssPara=Math.random()*distanceSqua+1; //random in [1,d^2]
 		this.ss=ssPara/distanceSqua;
 //		this.capacity= (int) Math.random()*6;
-		this.capacityActual=(int) (Math.random()*this.capacity);
+		this.capacityActual=(int) Math.ceil((Math.random()*this.capacity));
 		this.commonI=Math.random();
 	}
+	
+	void capacityReduce(){
+		this.capacityActual--;
+	}
+	
 	 void print(){
 		 System.out.println("x " +x+" y: "+y);
 		 System.out.println("signal strength: "+ss+" capacity: "+capacity+" actual capacity: "+capacityActual);
