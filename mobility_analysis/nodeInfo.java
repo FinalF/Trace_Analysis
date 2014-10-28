@@ -8,7 +8,8 @@ public class nodeInfo {
 	 * 1. signal strength
 	 * 2. supported devices capacity in theory 
 	 * 3. actual capacity
-	 * 4. common interests shared with the GO*/
+	 * 4. common interests shared with the GO
+	 * 5. D2D communication distance*/
 	double x=0;
 	double y=0;
 	double ss=0;
@@ -17,6 +18,8 @@ public class nodeInfo {
 	double commonI=0;
 	double ssPara=0;
 	double distanceSqua=0;
+	double d2dRange=50;
+	
 	nodeInfo(){
 		
 	}

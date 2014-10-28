@@ -24,7 +24,13 @@ public class RawDataReadIn {
 		this.lines=lines;
 	}
 	
+	boolean linesUpdate(int lines){
+		this.lines=lines;
+		return true;
+	}
+	
 	boolean infoUpdate(HashMap<String,nodeInfo> matrix) throws IOException{
+		/*update the information matrix by current coordinations*/
 		for(File f: FileRawDataDic.listFiles()){
 			String nodename= f.getName();
 			BufferedReader in=new BufferedReader(new InputStreamReader(new FileInputStream(f)));
