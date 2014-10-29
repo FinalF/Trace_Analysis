@@ -40,7 +40,7 @@ public class test {
 //		for(String key:matrix.keySet()){
 //			System.out.println("Node: "+key);
 //			nodeInfo ni=matrix.get(key);
-//			ni.print();
+//			ni.print();;
 //		}		
 		
 		/*--------------1. test the rawdata read in and information updates--------------*/
