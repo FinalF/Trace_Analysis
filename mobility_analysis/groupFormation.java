@@ -17,10 +17,11 @@ public class groupFormation {
 	ArrayList<nodeInfo> candidates;
 	int totalNode=0;
 	int requiredNode=0;
-	double nrRatio=0.5;
+	double nrRatio=0.7;
 	
 	/*statistics */
 	int GMs=0;
+	int numOfGOs=0;
 	
 	groupFormation(double nrRatio){
 		this.candidates = new ArrayList<nodeInfo>();
@@ -62,13 +63,14 @@ public class groupFormation {
 			}
 			i++;
 		}
+		numOfGOs=GOs.size();
 		/*check whether non-GOs can join nearby GOs*/
 		for(int j=0; j<candidates.size();j++){
 			if(!GOs.contains(j)){
 				nodeInfo cur=candidates.get(j);
 				for(int k: GOs){
 					nodeInfo GO=candidates.get(k);
-					if(distance(cur,GO)<GO.d2dRange && GO.capacityActual>0){
+					if(distance(cur,GO)<=GO.d2dRange && GO.capacityActual>0){
 						GMs++;
 						GO.capacityReduce();
 						candidates.add(k,GO); //update the GO
@@ -129,13 +131,22 @@ public class groupFormation {
 	}
 	
 	
+	int numberOfGO(){
+		return numOfGOs;
+	}
+
+	int numberOfGM(){
+		return GMs;
+	}
 	
 	/*print out the information of Go candidates*/
 	void candidatesPrint(){
+		System.out.println("candidates based on ss");
 		for(int i=0;i<candidates.size(); i++){
 			nodeInfo ni=candidates.get(i);
 			ni.print();
 		}
+		System.out.println();
 	}
 	
 	int currentConnection(){
