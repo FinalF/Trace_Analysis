@@ -20,6 +20,10 @@ public class RawDataReadIn {
 	File ResultRecord;
 	int lines=0; //define which line to read
 	
+	double d2dRange=50;
+	double capacityMax=5;
+	boolean getStat=false;
+	
 	RawDataReadIn(String RawDataPath, int lines){
 		this.FileRawDataDic=new File(RawDataPath);
 		this.lines=lines;
@@ -75,6 +79,11 @@ public class RawDataReadIn {
 					nodeInfo ni=matrix.get(nodename);
 					ni.update(x, y);
 					matrix.put(nodename, ni);
+					if(getStat==false){
+						capacityMax=ni.getMaxCapacity();
+						d2dRange=ni.getd2dRange();
+						getStat=true;
+					}
 				}else{
 					//not exists, create
 					nodeInfo ni=new nodeInfo(x,y);
@@ -85,6 +94,14 @@ public class RawDataReadIn {
 		}
 
 		return matrix;
+	}
+	
+	int getMaxCapacity(){
+		return (int) capacityMax;
+	}
+	
+	int getd2dRange(){
+		return (int) d2dRange;
 	}
 	
 }
