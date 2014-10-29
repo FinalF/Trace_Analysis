@@ -56,9 +56,10 @@ public class groupFormation {
 		Set<Integer> GOs=new HashSet<Integer>();//record the index of GOs
 		int i=0;
 		int assumedTotal=totalNode;
-		while(i<candidates.size() && assumedTotal>requiredNode){
-			if(candidates.get(i).capacityActual>0){//check its utilization
+		while(i<candidates.size() && assumedTotal>0){
+			if(candidates.get(i).capacityActual>1){//check its utilization
 				assumedTotal-=candidates.get(i).capacity;
+//				assumedTotal-=candidates.get(i).capacityActual;
 				GOs.add(i); //record this candidate as the GO
 			}
 			i++;
@@ -66,7 +67,7 @@ public class groupFormation {
 		numOfGOs=GOs.size();
 		/*check whether non-GOs can join nearby GOs*/
 		for(int j=0; j<candidates.size();j++){
-			if(!GOs.contains(j)){
+			if(!GOs.contains(j)){//this is a potential GM
 				nodeInfo cur=candidates.get(j);
 				for(int k: GOs){
 					nodeInfo GO=candidates.get(k);
@@ -74,6 +75,7 @@ public class groupFormation {
 						GMs++;
 						GO.capacityReduce();
 						candidates.add(k,GO); //update the GO
+						break;//already found a GO, go to next potential GM
 					}
 				}
 			}
