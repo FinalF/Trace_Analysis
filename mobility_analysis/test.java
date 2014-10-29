@@ -105,7 +105,7 @@ public class test {
 		String filename=resultRecordPath+result.length+"_maxC"+capacityMax+"_d2dR"+d2dRange+".txt";
 		OutputStream outF= new FileOutputStream(filename); //overwrite
 		BufferedWriter out=new BufferedWriter(new OutputStreamWriter(outF));
-		out.write("Result Record: \n");
+		out.write("total connection | actual connection | requiredRatio | actualRatio | num of GOs | num of GMs \n");
 //		out.newLine();
 		for(int i=0;i<result.length;i++){
 			for(int j=0;j<result[i].length;j++){

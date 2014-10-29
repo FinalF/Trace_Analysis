@@ -19,7 +19,7 @@ public class nodeInfo {
 	double commonI=0;
 	double ssPara=0;
 	double distanceSqua=0;
-	double d2dRange=50;
+	double d2dRange=500;
 	
 	nodeInfo(){
 		
