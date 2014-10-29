@@ -17,12 +17,21 @@ public class RawDataReadIn {
 	 * update the infomatrix
 	 * hashmap<nodename, nodeInfo>*/
 	File FileRawDataDic;
+	File ResultRecord;
 	int lines=0; //define which line to read
 	
 	RawDataReadIn(String RawDataPath, int lines){
 		this.FileRawDataDic=new File(RawDataPath);
 		this.lines=lines;
 	}
+	
+	
+	RawDataReadIn(String RawDataPath, String ResultRecordFile, int lines){
+		this.FileRawDataDic=new File(RawDataPath);
+		this.ResultRecord=new File(ResultRecordFile);
+		this.lines=lines;
+	}
+	
 	
 	boolean linesUpdate(int lines){
 		this.lines=lines;

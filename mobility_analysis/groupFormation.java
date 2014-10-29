@@ -24,12 +24,13 @@ public class groupFormation {
 	
 	groupFormation(double nrRatio){
 		this.candidates = new ArrayList<nodeInfo>();
-		
 	}
 	
 	
 	/*-------PART I: update the geo/signal information, saved for GO & GM sslection--------------------*/
 	boolean candidatesUpdate(HashMap<String,nodeInfo> matrix){
+		totalNode=0;
+		GMs=0;
 		candidates = new ArrayList<nodeInfo>();
 		for(String key : matrix.keySet()){
 			//put the infonode into the arraylist 
@@ -53,23 +54,25 @@ public class groupFormation {
 		this.requiredNode=(int) (totalNode*nrRatio);
 		Set<Integer> GOs=new HashSet<Integer>();//record the index of GOs
 		int i=0;
-		while(i<candidates.size() && totalNode>requiredNode){
+		int assumedTotal=totalNode;
+		while(i<candidates.size() && assumedTotal>requiredNode){
 			if(candidates.get(i).capacityActual>0){//check its utilization
-				totalNode-=candidates.get(i).capacity;
-				GOs.add(i);
+				assumedTotal-=candidates.get(i).capacity;
+				GOs.add(i); //record this candidate as the GO
 			}
 			i++;
 		}
 		/*check whether non-GOs can join nearby GOs*/
 		for(int j=0; j<candidates.size();j++){
-			if(GOs.contains(j)) continue;
-			nodeInfo cur=candidates.get(j);
-			for(int k: GOs){
-				nodeInfo GO=candidates.get(k);
-				if(distance(cur,GO)<GO.d2dRange && GO.capacityActual>0){
-					GMs++;
-					GO.capacityReduce();
-					candidates.add(k,GO); //update the GO
+			if(!GOs.contains(j)){
+				nodeInfo cur=candidates.get(j);
+				for(int k: GOs){
+					nodeInfo GO=candidates.get(k);
+					if(distance(cur,GO)<GO.d2dRange && GO.capacityActual>0){
+						GMs++;
+						GO.capacityReduce();
+						candidates.add(k,GO); //update the GO
+					}
 				}
 			}
 		}
