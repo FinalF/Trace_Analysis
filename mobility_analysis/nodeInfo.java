@@ -14,6 +14,7 @@ public class nodeInfo {
 	double y=0;
 	double ss=0;
 	int capacity=0;
+	double capacityMax=8;
 	int capacityActual=0;
 	double commonI=0;
 	double ssPara=0;
@@ -29,8 +30,9 @@ public class nodeInfo {
 		this.distanceSqua=Math.pow(x,2)+Math.pow(y, 2);
 		this.ssPara=Math.random()*distanceSqua+1; //random in [1,d^2]
 		this.ss=ssPara/distanceSqua;
-		this.capacity= (int) (Math.random()*6+1);
+		this.capacity= (int) (Math.random()*capacityMax+1);
 		this.capacityActual=(int) (Math.random()*this.capacity);
+//		this.capacityActual=capacity;
 		this.commonI=Math.random();
 	}
 	
@@ -42,11 +44,20 @@ public class nodeInfo {
 		this.ss=ssPara/distanceSqua;
 //		this.capacity= (int) Math.random()*6;
 		this.capacityActual=(int) Math.ceil((Math.random()*this.capacity));
+//		this.capacityActual=capacity;
 		this.commonI=Math.random();
 	}
 	
 	void capacityReduce(){
 		this.capacityActual--;
+	}
+	
+	int getMaxCapacity(){
+		return (int) capacityMax;
+	}
+	
+	int getd2dRange(){
+		return (int) d2dRange;
 	}
 	
 	 void print(){
