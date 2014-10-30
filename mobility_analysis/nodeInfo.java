@@ -19,7 +19,7 @@ public class nodeInfo {
 	double commonI=0;
 	double ssPara=0;
 	double distanceSqua=0;
-	double d2dRange=500;
+	double d2dRange=50;
 	
 	nodeInfo(){
 		
@@ -35,6 +35,25 @@ public class nodeInfo {
 //		this.capacityActual=capacity;
 		this.commonI=Math.random();
 	}
+	
+	nodeInfo(double x, double y, double capacityMax, double d2dRange){
+		this.x=x;
+		this.y=y;
+		this.distanceSqua=Math.pow(x,2)+Math.pow(y, 2);
+		this.ssPara=Math.random()*distanceSqua+1; //random in [1,d^2]
+		this.ss=ssPara/distanceSqua;
+		this.capacityMax=capacityMax;
+		this.d2dRange=d2dRange;
+		this.capacity= (int) (Math.random()*capacityMax+1);
+		this.capacityActual=(int) (Math.random()*this.capacity);
+//		this.capacityActual=capacity;
+		this.commonI=Math.random();
+	}
+	
+	
+	
+	
+	
 	
 	void update(double x, double y){
 		this.x=x;
