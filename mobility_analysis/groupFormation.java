@@ -25,6 +25,7 @@ public class groupFormation {
 	
 	groupFormation(double nrRatio){
 		this.candidates = new ArrayList<nodeInfo>();
+		this.nrRatio=nrRatio;
 	}
 	
 	
