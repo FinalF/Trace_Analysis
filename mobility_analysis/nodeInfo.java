@@ -10,6 +10,7 @@ public class nodeInfo {
 	 * 3. actual capacity
 	 * 4. common interests shared with the GO
 	 * 5. D2D communication distance*/
+	double t=0; //time stamp
 	double x=0;
 	double y=0;
 	double ss=0;
@@ -36,7 +37,8 @@ public class nodeInfo {
 		this.commonI=Math.random();
 	}
 	
-	nodeInfo(double x, double y, double capacityMax, double d2dRange){
+	nodeInfo(double t,double x, double y, double capacityMax, double d2dRange){
+		this.t=t;
 		this.x=x;
 		this.y=y;
 		this.distanceSqua=Math.pow(x,2)+Math.pow(y, 2);
@@ -52,10 +54,21 @@ public class nodeInfo {
 	
 	
 	
+	void updateXY(double t, double x, double y){
+		//only update the coordinates, so that the GOs won't change
+		this.t=t;
+		this.x=x;
+		this.y=y;
+		this.distanceSqua=Math.pow(x,2)+Math.pow(y, 2);
+//		this.capacity= (int) Math.random()*6;
+		this.capacityActual=(int) Math.ceil((Math.random()*this.capacity));
+//		this.capacityActual=capacity;
+		this.commonI=Math.random();		
+	}
 	
 	
-	
-	void update(double x, double y){
+	void update(double t, double x, double y){
+		this.t=t;
 		this.x=x;
 		this.y=y;
 		this.distanceSqua=Math.pow(x,2)+Math.pow(y, 2);

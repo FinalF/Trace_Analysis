@@ -22,6 +22,7 @@ public class RawDataReadIn {
 	
 	double d2dRange=50;
 	double capacityMax=5;
+	double epoch=30;
 	boolean getStat=false;
 	
 	RawDataReadIn(String RawDataPath, int lines){
@@ -37,7 +38,14 @@ public class RawDataReadIn {
 		this.FileRawDataDic=new File(RawDataPath);
 		this.capacityMax=capacityMax;
 		this.d2dRange=d2dRange;
-	}	
+	}
+	
+	RawDataReadIn(String RawDataPath, double capacityMax, double d2dRange, double epoch){
+		this.FileRawDataDic=new File(RawDataPath);
+		this.capacityMax=capacityMax;
+		this.d2dRange=d2dRange;
+		this.epoch=epoch;
+	}
 	
 	RawDataReadIn(String RawDataPath, String ResultRecordFile, int lines){
 		this.FileRawDataDic=new File(RawDataPath);
@@ -86,7 +94,11 @@ public class RawDataReadIn {
 				if(matrix.containsKey(nodename)){
 					//already exists, update
 					nodeInfo ni=matrix.get(nodename);
-					ni.update(x, y);
+					if(t%epoch==0){
+						ni.update(t,x, y);
+					}else{
+						ni.updateXY(t, x, y);
+					}
 					matrix.put(nodename, ni);
 //					if(getStat==false){
 //						capacityMax=ni.getMaxCapacity();
@@ -95,7 +107,7 @@ public class RawDataReadIn {
 //					}
 				}else{
 					//not exists, create
-					nodeInfo ni=new nodeInfo(x,y,capacityMax,d2dRange);
+					nodeInfo ni=new nodeInfo(t,x,y,capacityMax,d2dRange);
 					matrix.put(nodename, ni);					
 				}
 			}

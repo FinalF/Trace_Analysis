@@ -18,16 +18,21 @@ public class groupFormation {
 	int totalNode=0;
 	int requiredNode=0;
 	double nrRatio=0.7;
+//	double epoch=30;
 	
 	/*statistics */
 	int GMs=0;
 	int numOfGOs=0;
 	
-	groupFormation(double nrRatio){
-		this.candidates = new ArrayList<nodeInfo>();
-		this.nrRatio=nrRatio;
-	}
 	
+//	groupFormation(double epoch){
+//		this.candidates = new ArrayList<nodeInfo>();
+//		this.epoch=epoch;
+//	}
+
+	groupFormation(){
+		this.candidates = new ArrayList<nodeInfo>();
+	}
 	
 	/*-------PART I: update the geo/signal information, saved for GO & GM sslection--------------------*/
 	boolean candidatesUpdate(HashMap<String,nodeInfo> matrix){
@@ -53,7 +58,7 @@ public class groupFormation {
 	/*-------PART II: Pick up GOs, GMs--------------------*/
 	
 	boolean formGroup(){
-		this.requiredNode=(int) (totalNode*nrRatio);
+//		this.requiredNode=(int) (totalNode*nrRatio);
 		Set<Integer> GOs=new HashSet<Integer>();//record the index of GOs
 		int i=0;
 		int assumedTotal=totalNode;
